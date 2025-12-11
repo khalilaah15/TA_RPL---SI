@@ -1,14 +1,24 @@
 <x-app-layout>
+
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+        header h2 {
+            color: white !important;
+        }
+    </style>
+
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <div>
-                <h2 class="font-bold text-2xl text-gray-800 leading-tight">
+                <h2 class="font-bold text-2xl leading-tight">
                     {{ __('Manajemen Produk Camilan') }}
                 </h2>
-                <p class="text-sm text-gray-600 mt-1">Kelola katalog produk camilan Anda</p>
             </div>
-            <a href="{{ route('products.create') }}"
-                class="admin-primary-btn">
+
+            <a href="{{ route('products.create') }}" class="admin-primary-btn">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                 </svg>
@@ -16,35 +26,40 @@
             </a>
         </div>
     </x-slot>
+
     <style>
+        /* Style Tombol Orange */
         .admin-primary-btn {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            /* Orange */
             color: white;
             padding: 12px 24px;
             border-radius: 12px;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
             display: flex;
             align-items: center;
             gap: 8px;
             text-decoration: none;
             transition: all 0.3s ease;
+            border: 1px solid #f59e0b;
         }
 
         .admin-primary-btn:hover {
-            background: linear-gradient(135deg, #4338ca 0%, #6d28d9 100%);
+            background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
+            /* Orange Gelap saat Hover */
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.4);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.6);
         }
 
-        /* Jika mau lebih kontras, gunakan warna solid yang kuat */
+        /* Jika mau lebih kontras, gunakan warna solid merah gelap */
         .admin-solid-btn {
-            background-color: #2563eb;
+            background-color: #b91c1c;
             color: white;
             padding: 12px 24px;
             border-radius: 12px;
             font-weight: 700;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+            box-shadow: 0 4px 15px rgba(185, 28, 28, 0.3);
             display: flex;
             align-items: center;
             gap: 8px;
@@ -53,9 +68,9 @@
         }
 
         .admin-solid-btn:hover {
-            background-color: #1d4ed8;
+            background-color: #991b1b;
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 8px 25px rgba(185, 28, 28, 0.4);
         }
 
         /* Main Container */
@@ -98,6 +113,23 @@
             flex-shrink: 0;
         }
 
+        /* stat icon backgrounds use soft red tints */
+        .stat-icon[data-variant="blue"] {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        }
+
+        .stat-icon[data-variant="green"] {
+            background: linear-gradient(135deg, #fff1f2 0%, #ffd6d6 100%);
+        }
+
+        .stat-icon[data-variant="yellow"] {
+            background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+        }
+
+        .stat-icon[data-variant="red"] {
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        }
+
         .stat-content h3 {
             font-size: 14px;
             color: #6b7280;
@@ -112,15 +144,25 @@
 
         /* Filter Bar */
         .filter-bar {
-            background: white;
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
             border-radius: 16px;
             padding: 20px;
+            color: white;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             margin-bottom: 24px;
             display: flex;
             flex-wrap: wrap;
             gap: 16px;
             align-items: center;
+        }
+
+        .filter-bar .filter-label {
+            color: white;
+        }
+
+        .filter-bar .filter-select {
+            color: #374151;
+            background-color: white;
         }
 
         .filter-group {
@@ -145,13 +187,14 @@
             background: white;
         }
 
+        /* Search input with red-tinted icon */
         .search-input {
             padding: 10px 16px 10px 40px;
             border: 1px solid #d1d5db;
             border-radius: 10px;
             font-size: 14px;
             width: 300px;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ef4444'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'/%3E%3C/svg%3E");
             background-position: 12px center;
             background-repeat: no-repeat;
             background-size: 20px;
@@ -164,6 +207,7 @@
             gap: 24px;
         }
 
+        /* Product Card */
         .product-card {
             background: white;
             border-radius: 16px;
@@ -188,7 +232,7 @@
             width: 100%;
             height: 200px;
             overflow: hidden;
-            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
         }
 
         .product-image {
@@ -216,15 +260,15 @@
         }
 
         .low-stock {
-            background: rgba(245, 158, 11, 0.9);
+            background: linear-gradient(90deg, #f97316 0%, #ef4444 100%);
         }
 
         .out-of-stock {
-            background: rgba(239, 68, 68, 0.9);
+            background: linear-gradient(90deg, #ef4444 0%, #b91c1c 100%);
         }
 
         .in-stock {
-            background: rgba(16, 185, 129, 0.9);
+            background: linear-gradient(90deg, #fb7185 0%, #ef4444 100%);
         }
 
         /* Product Content */
@@ -242,7 +286,8 @@
         .product-name {
             font-size: 18px;
             font-weight: 700;
-            color: #1f2937;
+            color: #7f1d1d;
+            /* dark red title */
             margin-bottom: 8px;
             line-height: 1.3;
         }
@@ -275,7 +320,8 @@
         .product-price {
             font-size: 22px;
             font-weight: 800;
-            color: #ea580c;
+            color: #b91c1c;
+            /* strong red price */
         }
 
         .stock-section {
@@ -293,13 +339,13 @@
         .stock-value {
             font-size: 16px;
             font-weight: 700;
-            color: #1f2937;
+            color: #7f1d1d;
         }
 
         /* Stock Progress Bar */
         .stock-progress {
             height: 6px;
-            background: #e5e7eb;
+            background: #ffecee;
             border-radius: 3px;
             overflow: hidden;
             margin-top: 8px;
@@ -312,15 +358,15 @@
         }
 
         .progress-high {
-            background: linear-gradient(90deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(90deg, #ef4444 0%, #b91c1c 100%);
         }
 
         .progress-medium {
-            background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%);
+            background: linear-gradient(90deg, #fb923c 0%, #ef4444 100%);
         }
 
         .progress-low {
-            background: linear-gradient(90deg, #ef4444 0%, #dc2626 100%);
+            background: linear-gradient(90deg, #f97316 0%, #fb7185 100%);
         }
 
         /* Action Buttons */
@@ -347,15 +393,15 @@
         }
 
         .edit-btn {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            color: #92400e;
-            border: 1px solid #fbbf24;
+            background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+            color: #7f1d1d;
+            border: 1px solid #fca5a5;
         }
 
         .edit-btn:hover {
-            background: linear-gradient(135deg, #fde68a 0%, #fcd34d 100%);
+            background: linear-gradient(135deg, #ffe4e6 0%, #ffccd5 100%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 4px 12px rgba(185, 28, 28, 0.12);
         }
 
         .delete-btn {
@@ -365,9 +411,9 @@
         }
 
         .delete-btn:hover {
-            background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%);
+            background: linear-gradient(135deg, #fecaca 0%, #ffb4b4 100%);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+            box-shadow: 0 4px 12px rgba(185, 28, 28, 0.12);
         }
 
         /* Quick Actions */
@@ -405,11 +451,11 @@
         }
 
         .view-btn {
-            color: #3b82f6;
+            color: #dc2626;
         }
 
         .duplicate-btn {
-            color: #8b5cf6;
+            color: #b91c1c;
         }
 
         /* Empty State */
@@ -425,13 +471,13 @@
         .empty-icon {
             width: 80px;
             height: 80px;
-            background: #f3f4f6;
+            background: #fff1f2;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 24px;
-            color: #9ca3af;
+            color: #fca5a5;
         }
 
         /* Modal */
@@ -442,7 +488,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(17, 24, 39, 0.6);
             z-index: 1000;
             align-items: center;
             justify-content: center;

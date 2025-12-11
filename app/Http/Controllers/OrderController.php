@@ -122,17 +122,15 @@ class OrderController extends Controller
     }
 
     // 5. Download Invoice PDF
+    // OrderController.php
     public function invoice(Transaction $transaction)
     {
-        // Keamanan: Pastikan yang download adalah pemilik transaksi
-        if ($transaction->user_id != Auth::id()) {
+        // Izinkan admin atau pemilik transaksi
+        if ($transaction->user_id != Auth::id() && Auth::user()->role !== 'admin') {
             abort(403, 'Anda tidak berhak melihat invoice ini.');
         }
 
-        // Load tampilan PDF
         $pdf = Pdf::loadView('orders.invoice', compact('transaction'));
-
-        // Download file
         return $pdf->download('invoice-umkm-' . $transaction->id . '.pdf');
     }
 

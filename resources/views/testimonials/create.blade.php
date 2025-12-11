@@ -1,4 +1,30 @@
 <x-app-layout>
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+
+        header h2 {
+            color: white !important;
+        }
+
+        .admin-primary-btn {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            /* Orange */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #f59e0b;
+        }
+    </style>
     <x-slot name="header">
         <h2 class="font-bold text-xl text-gray-800 leading-tight">
             {{ __('Beri Ulasan & Testimoni') }}
@@ -30,7 +56,7 @@
                         <textarea name="content" rows="4" class="w-full border-gray-300 rounded shadow-sm focus:ring-indigo-500" placeholder="Contoh: Pelayanan cepat, rasa keripiknya mantap!" required></textarea>
                     </div>
                     <button type="submit"
-                        class="w-full flex items-center justify-center gap-2 px-6 py-3 border-2 border-indigo-600 text-indigo-600 font-bold rounded-xl hover:bg-indigo-600 hover:text-white transition-colors duration-300 focus:ring-4 focus:ring-indigo-200">
+                        class="button admin-primary-btn">
                         <span>Kirim Ulasan</span>
                         <span class="animate-bounce">🚀</span>
                     </button>

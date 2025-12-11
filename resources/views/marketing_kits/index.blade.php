@@ -1,4 +1,30 @@
 <x-app-layout>
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+
+        header h2 {
+            color: white !important;
+        }
+
+        .admin-primary-btn {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            /* Orange */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #f59e0b;
+        }
+    </style>
     <x-slot name="header">
         <div class="flex justify-between items-center gap-6">
             <div>
@@ -20,20 +46,6 @@
     </x-slot>
 
     <style>
-        .admin-primary-btn {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 700;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
         .page-wrap {
             padding-top: 32px;
             padding-bottom: 48px;
@@ -113,13 +125,12 @@
         }
 
         .download-btn {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
             color: white;
-            border: 1px solid #059669;
         }
 
         .download-btn:hover {
-            background: #059669;
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
             transform: translateY(-2px);
         }
 
@@ -137,7 +148,7 @@
 
         /* Month Header */
         .month-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 1.5rem;
@@ -372,15 +383,15 @@
         }
 
         .toast-success {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
         }
 
         .toast-info {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
         }
 
         .toast-download {
-            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
         }
 
         @keyframes toastIn {
@@ -487,6 +498,7 @@
                             <div class="mt-4" onclick="event.stopPropagation()">
                                 <div class="action-buttons">
                                     {{-- Copy Button --}}
+                                    @if(Auth::user()->role === 'reseller')
                                     <button type="button" onclick="copyCaption('caption-{{ $kit->id }}')" class="copy-btn">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -501,6 +513,7 @@
                                         </svg>
                                         <span>Unduh</span>
                                     </a>
+                                    @endif
 
                                     @if(Auth::user()->role === 'admin')
                                     <div class="admin-actions">

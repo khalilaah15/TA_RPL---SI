@@ -1,11 +1,21 @@
 <x-app-layout>
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+
+        header h2 {
+            color: white !important;
+        }
+    </style>
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-bold text-2xl text-gray-800 leading-tight">
                 {{ __('Keranjang Belanja') }}
             </h2>
             <a href="{{ route('products.index') }}"
-                class="flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                class="flex items-center gap-2 bg-white border border-red-200 text-red-600 hover:bg-red-50 px-4 py-2 rounded-lg font-medium transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -19,26 +29,16 @@
         /* ========== Spacing Tokens ========== */
         :root {
             --page-pad-x: 1rem;
-            /* mobile horizontal padding */
             --page-pad-x-lg: 2rem;
-            /* desktop horizontal padding */
             --g-4: 1rem;
-            /* general gap */
             --g-6: 1.5rem;
             --card-pad: 1.25rem;
-            /* internal card padding */
             --card-pad-lg: 1.5rem;
             --muted: #6b7280;
             --border: #e5e7eb;
             --surface: #ffffff;
-            --accent: #10b981;
-        }
-
-        /* ========== Page layout ========== */
-        .page {
-            padding: 2rem var(--page-pad-x) 3rem;
-            background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
-            min-height: 100vh;
+            /* UBAH: Warna Accent Menjadi Merah (#ef4444 adalah Tailwind Red-500) */
+            --accent: #ef4444;
         }
 
         @media(min-width: 1024px) {
@@ -109,8 +109,10 @@
         }
 
         .cart-item:hover {
-            background: #fbfbfb;
+            background: #fffafa;
+            /* Merah sangat tipis saat hover */
             transform: translateY(-2px);
+            border-color: #fee2e2;
         }
 
         .cart-item-media {
@@ -182,7 +184,8 @@
 
         /* ========== Buttons & form ========== */
         .btn-primary {
-            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            /* UBAH: Gradient Merah */
+            background: linear-gradient(135deg, var(--accent) 0%, #b91c1c 100%);
             color: #fff;
             border-radius: 10px;
             padding: 12px 14px;
@@ -192,11 +195,21 @@
             gap: 8px;
             border: none;
             cursor: pointer;
+            width: 100%;
+            /* Memastikan tombol full width di mobile */
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+            transform: translateY(-1px);
         }
 
         .btn-primary:disabled {
             background: #9ca3af;
             cursor: not-allowed;
+            box-shadow: none;
         }
 
         .btn-danger {
@@ -211,6 +224,10 @@
             cursor: pointer;
         }
 
+        .btn-danger:hover {
+            background: #fee2e2;
+        }
+
         .form-input {
             width: 100%;
             padding: 12px 14px;
@@ -222,7 +239,8 @@
 
         .form-input:focus {
             outline: none;
-            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.06);
+            /* UBAH: Shadow fokus menjadi nuansa merah */
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.1);
             border-color: var(--accent);
         }
 
@@ -236,10 +254,11 @@
 
         /* ========== QRIS box ========== */
         .qris-box {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            /* UBAH: Gradient Merah Muda */
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
             border-radius: 10px;
             padding: 14px;
-            border: 1px solid #bae6fd;
+            border: 1px solid #fecaca;
             text-align: center;
         }
 
@@ -261,6 +280,8 @@
             font-size: 56px;
             margin-bottom: 14px;
             opacity: .6;
+            filter: grayscale(100%) brightness(80%) sepia(100%) hue-rotate(-50deg) saturate(300%);
+            /* Trick to make emoji reddish */
         }
 
         /* ========== Tiny helpers ========== */
@@ -279,7 +300,8 @@
             width: 18px;
             height: 18px;
             border: 3px solid #f3f3f3;
-            border-top: 3px solid var(--accent);
+            border-top: 3px solid #fff;
+            /* White loader on red button */
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -312,7 +334,6 @@
 
     <div class="page">
         <div class="container">
-            <!-- Notifications -->
             @if(session('success'))
             <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
                 <div class="flex items-center gap-3">
@@ -335,16 +356,14 @@
             </div>
             @endif
 
-            <!-- Grid: left cart list, right order summary -->
             <div class="g-row">
-                <!-- LEFT -->
                 <div class="card cart-card">
                     <div class="flex items-center justify-between mb-6">
                         <div>
                             <h3 class="text-xl font-bold text-gray-900">Detail Pesanan</h3>
                             <p class="small mt-1">{{ $carts->count() }} item dalam keranjang</p>
                         </div>
-                        <div class="badge badge-info" style="display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .9rem; border-radius:20px; background:#dbeafe; color:#1e40af; font-weight:700;">
+                        <div class="badge badge-info" style="display:inline-flex; align-items:center; gap:.5rem; padding:.45rem .9rem; border-radius:20px; background:#fee2e2; color:#991b1b; font-weight:700;">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                             </svg>
@@ -373,7 +392,7 @@
                                     <div class="small">•</div>
                                     <div class="small">Jumlah: <strong class="text-gray-900 ml-1">{{ $cart->quantity }}</strong></div>
                                     <div class="small">•</div>
-                                    <div class="small">Subtotal: <span class="text-green-600 font-bold ml-1">Rp {{ number_format($cart->product->price * $cart->quantity,0,',','.') }}</span></div>
+                                    <div class="small">Subtotal: <span class="text-red-600 font-bold ml-1">Rp {{ number_format($cart->product->price * $cart->quantity,0,',','.') }}</span></div>
                                 </div>
                             </div>
 
@@ -391,55 +410,42 @@
                         @endforeach
                     </div>
 
-                    <!-- totals -->
-<div class="mt-6 pt-6 border-t border-gray-100">
-    @php 
-        // 1. Hitung Subtotal (Harga Barang x Jumlah)
-        $subtotal = $carts->sum(fn($c) => $c->product->price * $c->quantity);
-        
-        // 2. Tentukan Ongkir (Bisa diubah dinamis nanti, sekarang fix 30rb)
-        $ongkir = 30000; 
-        
-        // 3. Hitung Total Akhir
-        $total = $subtotal + $ongkir;
-    @endphp
+                    <div class="mt-6 pt-6 border-t border-gray-100">
+                        @php
+                        $subtotal = $carts->sum(fn($c) => $c->product->price * $c->quantity);
+                        $ongkir = 30000;
+                        $total = $subtotal + $ongkir;
+                        @endphp
 
-    <div class="summary-row">
-        <div class="summary-label">Subtotal</div>
-        <div class="summary-value">Rp {{ number_format($subtotal, 0, ',', '.') }}</div>
-    </div>
+                        <div class="summary-row">
+                            <div class="summary-label">Subtotal</div>
+                            <div class="summary-value">Rp {{ number_format($subtotal, 0, ',', '.') }}</div>
+                        </div>
 
-    <div class="summary-row">
-        <div class="summary-label">Ongkos Kirim</div>
-        <div class="summary-value">Rp {{ number_format($ongkir, 0, ',', '.') }}</div>
-    </div>
+                        <div class="summary-row">
+                            <div class="summary-label">Ongkos Kirim</div>
+                            <div class="summary-value">Rp {{ number_format($ongkir, 0, ',', '.') }}</div>
+                        </div>
 
-    <div class="summary-row">
-        <div class="summary-label">Biaya Layanan</div>
-        <div class="summary-value">Rp 0</div>
-    </div>
+                        <div class="summary-row">
+                            <div class="summary-label">Biaya Layanan</div>
+                            <div class="summary-value">Rp 0</div>
+                        </div>
 
-    <div class="summary-row" style="border-top:1px solid #f3f4f6; padding-top:1rem; margin-top:1rem; font-size:1.05rem;">
-        <div class="summary-label font-bold">Total Pembayaran</div>
-        <div class="summary-value text-green-600 font-bold">Rp {{ number_format($total, 0, ',', '.') }}</div>
-    </div>
-</div>
+                        <div class="summary-row" style="border-top:1px solid #f3f4f6; padding-top:1rem; margin-top:1rem; font-size:1.05rem;">
+                            <div class="summary-label font-bold">Total Pembayaran</div>
+                            <div class="summary-value text-red-600 font-bold">Rp {{ number_format($total, 0, ',', '.') }}</div>
+                        </div>
+                    </div>
                     @else
                     <div class="empty-cart">
                         <div class="empty-cart-icon">🛒</div>
                         <h3 class="text-xl font-bold text-gray-700 mb-2">Keranjang Belanja Kosong</h3>
                         <p class="small mb-6">Tambahkan produk ke keranjang untuk melanjutkan</p>
-                        <!-- <a href="{{ route('products.index') }}" class="btn-primary">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                                Mulai Belanja
-                            </a> -->
                     </div>
                     @endif
                 </div>
 
-                <!-- RIGHT -->
                 @if($carts->count() > 0)
                 <div class="card order-card">
                     <h3 class="text-xl font-bold text-gray-900 mb-6">Data Pengiriman</h3>
@@ -473,12 +479,12 @@
                                     <div style="margin-bottom:.75rem;">
                                         <strong class="text-gray-800">Scan QR Code di bawah</strong>
                                     </div>
-                                    <div class="inline-block p-2 bg-white rounded-lg border border-gray-200 mb-3">
+                                    <div class="inline-block p-2 bg-white rounded-lg border border-red-100 mb-3">
                                         <img src="{{ asset('image.png') }}" alt="QRIS Payment" class="qris-img">
                                     </div>
                                     <div class="small">
-                                        <div class="font-semibold">a.n Duan Tangguh Manggala</div>
-                                        <div>Pastikan nominal transfer sesuai dengan total pembayaran</div>
+                                        <div class="font-semibold text-red-800">a.n Duan Tangguh Manggala</div>
+                                        <div>Pastikan nominal transfer sesuai</div>
                                     </div>
                                 </div>
                             </div>
@@ -489,11 +495,11 @@
                                 <p class="small mt-2">Format: JPG, PNG, atau PDF (maks. 2MB)</p>
 
                                 <div id="filePreview" class="mt-3" style="display:none;">
-                                    <div style="display:flex; gap:.75rem; align-items:center; padding:.6rem; background:#ecfdf5; border-radius:.6rem; border:1px solid #bbf7d0;">
-                                        <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <div style="display:flex; gap:.75rem; align-items:center; padding:.6rem; background:#fef2f2; border-radius:.6rem; border:1px solid #fecaca;">
+                                        <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-                                        <span id="fileName" class="text-sm text-green-800 font-medium"></span>
+                                        <span id="fileName" class="text-sm text-red-800 font-medium"></span>
                                     </div>
                                 </div>
                             </div>

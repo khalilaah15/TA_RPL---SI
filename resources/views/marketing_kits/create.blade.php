@@ -1,14 +1,39 @@
 <x-app-layout>
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+
+        header h2 {
+            color: white !important;
+        }
+
+        .admin-primary-btn {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            /* Orange */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #f59e0b;
+        }
+    </style>
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight">
                     {{ __('Upload Marketing Kit') }}
                 </h2>
-                <p class="text-sm text-gray-600 mt-1">Unggah gambar atau video promosi; caption disiapkan agar mudah disalin reseller.</p>
             </div>
             <a href="{{ route('marketing-kits.index') }}"
-                class="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium">
+                class="flex items-center gap-2 text-white hover:text-white font-medium">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -24,43 +49,204 @@
             margin: 0 auto;
             padding: 24px;
         }
+
         .form-card {
             background: white;
             border-radius: 20px;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
             overflow: hidden;
         }
+
         .form-header {
             padding: 28px 32px;
             border-bottom: 1px solid #f3f4f6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
             color: white;
         }
-        .form-header h3 { font-size: 20px; font-weight: 700; display:flex; gap:12px; align-items:center; }
-        .form-body { padding: 32px; }
-        .form-group { margin-bottom: 24px; }
-        .form-label { display:flex; gap:8px; font-size:15px; font-weight:600; color:#374151; margin-bottom:10px; align-items:center; }
-        .required { color:#ef4444; font-size:18px; }
-        .form-hint { font-size:13px; color:#6b7280; margin-top:6px; display:flex; gap:6px; align-items:center; }
-        .form-input { width:100%; padding:14px 16px; border:2px solid #e5e7eb; border-radius:12px; font-size:15px; transition:all .3s; background:white; }
-        .form-input:focus { outline:none; border-color:#4f46e5; box-shadow:0 0 0 4px rgba(79,70,229,0.1); }
-        .form-textarea { min-height:120px; resize:vertical; line-height:1.5; }
-        .file-upload { position:relative; }
-        .file-input { position:absolute; width:0.1px; height:0.1px; opacity:0; overflow:hidden; z-index:-1; }
-        .file-label {
-            display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px;
-            background:#f8fafc; border:3px dashed #d1d5db; border-radius:16px; padding:32px 20px; cursor:pointer; transition:all .3s; text-align:center;
+
+        .form-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            gap: 12px;
+            align-items: center;
         }
-        .file-label:hover { background:#f1f5f9; border-color:#9ca3af; }
-        .file-label.drag-over { background:#e0e7ff; border-color:#4f46e5; }
-        .upload-icon { width:64px; height:64px; background:linear-gradient(135deg,#e0e7ff 0%,#c7d2fe 100%); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#4f46e5; }
-        .preview-area { margin-top:18px; text-align:center; }
-        .preview-media { max-width:100%; max-height:360px; border-radius:12px; border:2px solid #e5e7eb; box-shadow:0 4px 12px rgba(0,0,0,0.08); background:#000; display:inline-block; }
-        .remove-preview { margin-top:8px; background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; }
-        .form-actions { padding:24px; border-top:1px solid #f3f4f6; display:flex; gap:16px; justify-content:flex-end; background:#f9fafb; }
-        .submit-btn { background:linear-gradient(135deg,#10b981 0%,#059669 100%); color:white; border:none; border-radius:12px; padding:12px 22px; font-weight:700; cursor:pointer; display:flex; gap:10px; align-items:center; min-width:160px; justify-content:center; }
-        .cancel-btn { background:white; color:#374151; border:2px solid #d1d5db; border-radius:12px; padding:12px 22px; font-weight:600; cursor:pointer; text-decoration:none; display:flex; gap:10px; align-items:center; }
-        .error-message { color:#ef4444; font-size:14px; margin-top:6px; display:flex; gap:6px; align-items:center; font-weight:600; }
+
+        .form-body {
+            padding: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: flex;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+
+        .required {
+            color: #ef4444;
+            font-size: 18px;
+        }
+
+        .form-hint {
+            font-size: 13px;
+            color: #6b7280;
+            margin-top: 6px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all .3s;
+            background: white;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .file-upload {
+            position: relative;
+        }
+
+        .file-input {
+            position: absolute;
+            width: 0.1px;
+            height: 0.1px;
+            opacity: 0;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .file-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            background: #f8fafc;
+            border: 3px dashed #d1d5db;
+            border-radius: 16px;
+            padding: 32px 20px;
+            cursor: pointer;
+            transition: all .3s;
+            text-align: center;
+        }
+
+        .file-label:hover {
+            background: #f1f5f9;
+            border-color: #9ca3af;
+        }
+
+        .file-label.drag-over {
+            background: #e0e7ff;
+            border-color: #4f46e5;
+        }
+
+        .upload-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+        }
+
+        .preview-area {
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .preview-media {
+            max-width: 100%;
+            max-height: 360px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            background: #000;
+            display: inline-block;
+        }
+
+        .remove-preview {
+            margin-top: 8px;
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .form-actions {
+            padding: 24px;
+            border-top: 1px solid #f3f4f6;
+            display: flex;
+            gap: 16px;
+            justify-content: flex-end;
+            background: #f9fafb;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 22px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            min-width: 160px;
+            justify-content: center;
+        }
+
+        .cancel-btn {
+            background: white;
+            color: #374151;
+            border: 2px solid #d1d5db;
+            border-radius: 12px;
+            padding: 12px 22px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 6px;
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            font-weight: 600;
+        }
     </style>
 
     <div class="form-container">
@@ -96,17 +282,17 @@
                             Judul Promosi <span class="required">*</span>
                         </label>
                         <input type="text"
-                               name="title"
-                               class="form-input @error('title') input-error @enderror"
-                               placeholder="Contoh: Diskon Kemerdekaan"
-                               required
-                               maxlength="150"
-                               value="{{ old('title') }}">
+                            name="title"
+                            class="form-input @error('title') input-error @enderror"
+                            placeholder="Contoh: Diskon Kemerdekaan"
+                            required
+                            maxlength="150"
+                            value="{{ old('title') }}">
                         @error('title')
                         <div class="error-message">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {{ $message }}
                         </div>
@@ -118,15 +304,15 @@
                             Caption (Untuk di-copy Reseller) <span class="required">*</span>
                         </label>
                         <textarea name="caption"
-                                  class="form-input form-textarea @error('caption') input-error @enderror"
-                                  placeholder="Tulis caption promosi yang menarik di sini..."
-                                  required
-                                  rows="5">{{ old('caption') }}</textarea>
+                            class="form-input form-textarea @error('caption') input-error @enderror"
+                            placeholder="Tulis caption promosi yang menarik di sini..."
+                            required
+                            rows="5">{{ old('caption') }}</textarea>
                         @error('caption')
                         <div class="error-message">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {{ $message }}
                         </div>
@@ -141,17 +327,17 @@
 
                         <div class="file-upload" style="margin-top:12px;">
                             <input type="file"
-                                   name="image_path"
-                                   id="marketingFile"
-                                   class="file-input"
-                                   accept="image/*,video/*"
-                                   required>
+                                name="image_path"
+                                id="marketingFile"
+                                class="file-input"
+                                accept="image/*,video/*"
+                                required>
 
                             <label for="marketingFile" class="file-label" id="marketingFileLabel">
                                 <div class="upload-icon">
                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                     </svg>
                                 </div>
                                 <div>
@@ -165,7 +351,7 @@
                         <div class="error-message">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                             {{ $message }}
                         </div>
@@ -211,7 +397,8 @@
         // Drag & Drop visual
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
             marketingFileLabel.addEventListener(evt, (e) => {
-                e.preventDefault(); e.stopPropagation();
+                e.preventDefault();
+                e.stopPropagation();
             });
         });
 
@@ -227,7 +414,9 @@
             const dt = e.dataTransfer;
             if (dt && dt.files && dt.files.length) {
                 marketingFile.files = dt.files;
-                handleMarketingFileChange({ target: marketingFile });
+                handleMarketingFileChange({
+                    target: marketingFile
+                });
             }
         });
 

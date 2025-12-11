@@ -1,4 +1,30 @@
 <x-app-layout>
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+
+        header h2 {
+            color: white !important;
+        }
+
+        .admin-primary-btn {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            /* Orange */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #f59e0b;
+        }
+    </style>
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -6,7 +32,6 @@
                 </div>
                 <div>
                     <h2 class="font-bold text-xl text-gray-800">Laporan Keuangan Bulanan</h2>
-                    <p class="text-sm text-gray-500 mt-1">Analisis pendapatan dan performa penjualan</p>
                 </div>
             </div>
         </div>

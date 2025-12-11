@@ -1,4 +1,30 @@
 <x-app-layout>
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+
+        header h2 {
+            color: white !important;
+        }
+
+        .admin-primary-btn {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            /* Orange */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #f59e0b;
+        }
+    </style>
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-bold text-2xl text-gray-800 leading-tight">
@@ -10,11 +36,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <div id="cart-types-container" class="bg-white shadow-sm text-gray-800 px-3 py-2 rounded-lg font-semibold text-sm flex items-center gap-2 border border-gray-100">
-                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
+                <div id="cart-types-container" class="admin-primary-btn">
                     <span id="cart-types-display">{{ $cartTypes ?? 0 }} item di keranjang</span>
                 </div>
             </a>
@@ -25,7 +47,9 @@
 
     <style>
         /* Reset dan base styles */
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         /* Grid container */
         .products-grid {
@@ -47,13 +71,15 @@
             flex-direction: column;
             height: 100%;
             position: relative;
-            cursor: pointer; /* Menandakan bisa diklik */
+            cursor: pointer;
+            /* Menandakan bisa diklik */
         }
 
         .product-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-            border-color: #10b981; /* Highlight warna hijau saat hover */
+            border-color: #10b981;
+            /* Highlight warna hijau saat hover */
         }
 
         /* Gambar produk */
@@ -79,10 +105,15 @@
         /* Badge stok */
         .stock-badge {
             position: absolute;
-            top: 8px; left: 8px;
+            top: 8px;
+            left: 8px;
             background: rgba(239, 68, 68, 0.95);
-            color: white; font-size: 11px; font-weight: 700;
-            padding: 3px 10px; border-radius: 12px; z-index: 10;
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 12px;
+            z-index: 10;
         }
 
         /* Konten card */
@@ -94,25 +125,38 @@
         }
 
         .product-name {
-            font-size: 14px; font-weight: 600; color: #1f2937;
-            margin-bottom: 8px; line-height: 1.3;
-            display: -webkit-box; -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical; overflow: hidden;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
             min-height: 36px;
         }
 
         .product-price {
-            font-size: 16px; font-weight: 800; color: #ea580c;
+            font-size: 16px;
+            font-weight: 800;
+            color: #ea580c;
             margin-bottom: 4px;
         }
 
         .product-stock {
-            font-size: 12px; color: #6b7280;
-            display: flex; align-items: center; gap: 4px;
+            font-size: 12px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 4px;
             margin-bottom: 12px;
         }
 
-        .stock-icon { width: 12px; height: 12px; }
+        .stock-icon {
+            width: 12px;
+            height: 12px;
+        }
 
         /* Tombol dan input */
         .product-actions {
@@ -122,70 +166,216 @@
         }
 
         .quantity-input {
-            width: 60px; height: 32px; text-align: center;
-            border: 1px solid #d1d5db; border-radius: 6px;
-            font-size: 13px; margin-right: 8px;
+            width: 60px;
+            height: 32px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 13px;
+            margin-right: 8px;
         }
 
         .add-to-cart-btn {
-            background: #10b981; color: white; border: none;
-            border-radius: 6px; padding: 8px 12px;
-            font-size: 13px; font-weight: 600; cursor: pointer;
-            transition: all 0.2s ease; display: flex;
-            align-items: center; justify-content: center;
-            gap: 4px; flex-grow: 1;
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            flex-grow: 1;
         }
 
-        .add-to-cart-btn:hover { background: #059669; transform: translateY(-1px); }
-        .add-to-cart-btn:disabled { background: #9ca3af; cursor: not-allowed; transform: none; }
+        .add-to-cart-btn:hover {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            transform: translateY(-1px);
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         /* Layout utama */
-        .main-container { max-width: 1400px; margin: 0 auto; padding: 20px; }
-        .products-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid #e5e7eb; }
-        .products-count { font-size: 14px; color: #6b7280; }
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .products-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .products-count {
+            font-size: 14px;
+            color: #6b7280;
+        }
 
         /* Toast & Animations */
-        .toast { position: fixed; right: 1rem; top: 1rem; z-index: 60; min-width: 220px; padding: .6rem 1rem; border-radius: .5rem; display: flex; gap: .6rem; align-items: center; box-shadow: 0 10px 30px rgba(2, 6, 23, 0.12); transform-origin: top right; animation: toastIn .22s cubic-bezier(.2, .9, .3, 1); color: white; }
-        .toast-success { background: linear-gradient(90deg, #10b981, #059669); }
-        .toast-error { background: linear-gradient(90deg, #ef4444, #dc2626); }
-        @keyframes toastIn { from { opacity: 0; transform: translateY(-8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .toast {
+            position: fixed;
+            right: 1rem;
+            top: 1rem;
+            z-index: 60;
+            min-width: 220px;
+            padding: .6rem 1rem;
+            border-radius: .5rem;
+            display: flex;
+            gap: .6rem;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(2, 6, 23, 0.12);
+            transform-origin: top right;
+            animation: toastIn .22s cubic-bezier(.2, .9, .3, 1);
+            color: white;
+        }
+
+        .toast-success {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+        }
+
+        .toast-error {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px) scale(.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
         /* MODAL STYLES */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px); z-index: 50;
-            display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s ease;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 50;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        .modal-overlay.active { display: flex; opacity: 1; }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
         .modal-content {
-            background: white; width: 90%; max-width: 800px;
-            border-radius: 16px; overflow: hidden;
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 16px;
+            overflow: hidden;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            transform: scale(0.95); transition: transform 0.3s ease;
-            max-height: 90vh; overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-grid { display: grid; grid-template-columns: 1fr 1.2fr; }
-        .modal-image-area { background: #f3f4f6; height: 100%; min-height: 300px; display: flex; align-items: center; justify-content: center; }
-        .modal-image { width: 100%; height: 100%; object-fit: cover; }
-        .modal-details { padding: 32px; display: flex; flex-direction: column; }
-        .modal-close { position: absolute; top: 16px; right: 16px; background: white; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border: none; z-index: 10; }
-        .modal-close:hover { background: #f3f4f6; }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+        }
+
+        .modal-image-area {
+            background: #f3f4f6;
+            height: 100%;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-details {
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: white;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: none;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: #f3f4f6;
+        }
 
         @media (max-width: 768px) {
-            .modal-grid { grid-template-columns: 1fr; }
-            .modal-image-area { height: 250px; }
-            .modal-details { padding: 20px; }
+            .modal-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-image-area {
+                height: 250px;
+            }
+
+            .modal-details {
+                padding: 20px;
+            }
         }
 
         /* Responsif tweaks */
         @media (max-width: 640px) {
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 12px; }
-            .product-image-container { height: 140px; }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
+
+            .product-image-container {
+                height: 140px;
+            }
         }
+
         @media (min-width: 1024px) {
-            .products-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
+            }
         }
     </style>
 
@@ -203,67 +393,70 @@
         <div class="products-grid">
             @foreach($products as $product)
             <div class="product-card"
-                 onclick="openDetail(this)"
-                 data-id="{{ $product->id }}"
-                 data-name="{{ $product->name }}"
-                 data-price="{{ number_format($product->price, 0, ',', '.') }}"
-                 data-stock="{{ $product->stock }}"
-                 data-description="{{ $product->description }}"
-                 data-image="{{ asset('storage/' . $product->image) }}">
+                onclick="openDetail(this)"
+                data-id="{{ $product->id }}"
+                data-name="{{ $product->name }}"
+                data-price="{{ number_format($product->price, 0, ',', '.') }}"
+                data-stock="{{ $product->stock }}"
+                data-description="{{ $product->description }}"
+                data-image="{{ asset('storage/' . $product->image) }}">
 
                 <div class="product-image-container">
                     <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" class="product-image">
                     @if($product->stock <= 0)
-                        <div class="stock-badge">HABIS</div>
+                        <div class="stock-badge">HABIS
+                </div>
+                @endif
+            </div>
+
+            <div class="product-content">
+                <h3 class="product-name">{{ $product->name }}</h3>
+                <div class="mb-2">
+                    <div class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
+                    <div class="product-stock">
+                        <svg class="stock-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                        </svg>
+                        <span>Stok: {{ $product->stock }}</span>
+                    </div>
+                </div>
+
+                <div class="product-actions" onclick="event.stopPropagation()">
+                    @if($product->stock > 0)
+                    <form class="ajax-add-to-cart flex items-center" action="{{ route('carts.store', $product->id) }}" method="POST">
+                        @csrf
+                        <input type="number" name="quantity" value="20" min="20" max="{{ $product->stock }}" class="quantity-input" required>
+                        <button type="submit" class="add-to-cart-btn">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                            </svg>
+                            Tambah
+                        </button>
+                    </form>
+                    @else
+                    <button disabled class="add-to-cart-btn">Stok Habis</button>
                     @endif
                 </div>
-
-                <div class="product-content">
-                    <h3 class="product-name">{{ $product->name }}</h3>
-                    <div class="mb-2">
-                        <div class="product-price">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                        <div class="product-stock">
-                            <svg class="stock-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                            </svg>
-                            <span>Stok: {{ $product->stock }}</span>
-                        </div>
-                    </div>
-
-                    <div class="product-actions" onclick="event.stopPropagation()">
-                        @if($product->stock > 0)
-                        <form class="ajax-add-to-cart flex items-center" action="{{ route('carts.store', $product->id) }}" method="POST">
-                            @csrf
-                            <input type="number" name="quantity" value="20" min="20" max="{{ $product->stock }}" class="quantity-input" required>
-                            <button type="submit" class="add-to-cart-btn">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                                </svg>
-                                Tambah
-                            </button>
-                        </form>
-                        @else
-                        <button disabled class="add-to-cart-btn">Stok Habis</button>
-                        @endif
-                    </div>
-                </div>
             </div>
-            @endforeach
         </div>
+        @endforeach
+    </div>
 
-        @if($products->count() == 0)
-        <div class="empty-state">
-            <div class="empty-icon">📦</div>
-            <h3>Tidak ada produk tersedia</h3>
-            <p>Silakan coba lagi nanti</p>
-        </div>
-        @endif
+    @if($products->count() == 0)
+    <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <h3>Tidak ada produk tersedia</h3>
+        <p>Silakan coba lagi nanti</p>
+    </div>
+    @endif
     </div>
 
     <div id="productModal" class="modal-overlay" onclick="closeDetail(event)">
         <div class="modal-content relative">
             <button class="modal-close" onclick="closeDetail(event, true)">
-                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
             </button>
             <div class="modal-grid">
                 <div class="modal-image-area">
@@ -389,7 +582,11 @@
                         });
 
                         let data = null;
-                        try { data = await response.json(); } catch (err) { data = null; }
+                        try {
+                            data = await response.json();
+                        } catch (err) {
+                            data = null;
+                        }
 
                         if (!response.ok) {
                             const msg = data && (data.message || data.error) ? (data.message || data.error) : 'Gagal menambah ke keranjang';
