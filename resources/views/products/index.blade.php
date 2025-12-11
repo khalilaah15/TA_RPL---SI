@@ -598,13 +598,6 @@
                     <option value="stock_low">Stok Tersedikit</option>
                 </select>
             </div>
-
-            <div class="filter-group ml-auto">
-                <input type="text"
-                    placeholder="Cari produk..."
-                    class="search-input"
-                    id="searchProducts">
-            </div>
         </div>
 
         <!-- Products Grid -->

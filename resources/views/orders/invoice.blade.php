@@ -14,7 +14,7 @@
 <body>
     <div class="header">
         <h2>INVOICE PEMBELIAN</h2>
-        <p>UMKM Camilan Enak</p>
+        <p>Pedasan Kunchung</p>
     </div>
 
     <div class="details">
@@ -51,7 +51,6 @@
 
     <div style="margin-top: 30px; text-align: center; font-size: 12px; color: #555;">
         <p>Terima kasih sudah berbelanja di UMKM kami!</p>
-        <p>Simpan bukti ini sebagai syarat pengambilan barang.</p>
     </div>
 </body>
 </html>

@@ -28,45 +28,48 @@ class OrderController extends Controller
     // 2. Proses Checkout (REVISI)
     public function store(Request $request)
     {
-        // A. Validasi Input Lengkap
+        // 1. Validasi Input
         $request->validate([
             'receiver_name' => 'required',
             'address' => 'required',
             'phone' => 'required',
-            'payment_proof' => 'required|image|max:2048', // Wajib upload bukti
+            'payment_proof' => 'required|image|max:2048',
         ]);
 
-        // B. Ambil semua isi keranjang user
+        // 2. Ambil Keranjang
         $carts = Cart::where('user_id', Auth::id())->with('product')->get();
 
         if ($carts->isEmpty()) {
             return back()->with('error', 'Keranjang kosong!');
         }
 
-        // C. LOGIKA BARU: Cek Minimal 20 PCS & HITUNG TOTAL HARGA
-        $totalAmount = 0; // Inisialisasi variabel
+        // 3. Hitung Subtotal & Cek MOQ
+        $subtotal = 0;
 
         foreach ($carts as $item) {
-            // Cek MOQ
+            // Cek Minimal Order 20 Pcs
             if ($item->quantity < 20) {
                 return back()->with('error', 'Produk "' . $item->product->name . '" masih kurang dari 20 pcs. Silakan tambah lagi.');
             }
 
-            // Hitung Total Harga (Harga x Jumlah)
-            $totalAmount += $item->product->price * $item->quantity;
+            // Hitung harga barang x jumlah
+            $subtotal += $item->product->price * $item->quantity;
         }
 
-        // D. Upload Bukti Bayar
+        // 4. Tambahkan Ongkir (Rp 30.000)
+        $shippingCost = 30000;
+        $totalAmount = $subtotal + $shippingCost; // Total yang akan disimpan ke DB
+
+        // 5. Upload Bukti Bayar
         $proofPath = $request->file('payment_proof')->store('payments', 'public');
 
-        // E. Mulai Transaksi Database
-        // Kita passing $totalAmount yang sudah dihitung di atas
+        // 6. Simpan Transaksi ke Database
         DB::transaction(function () use ($request, $carts, $totalAmount, $proofPath) {
 
-            // Buat Transaksi
+            // Buat Nota Utama
             $transaction = Transaction::create([
                 'user_id' => Auth::id(),
-                'total_amount' => $totalAmount, // INI YANG TADI SALAH
+                'total_amount' => $totalAmount, // Nilai ini sudah (Subtotal + 30.000)
                 'status' => 'pending',
                 'receiver_name' => $request->receiver_name,
                 'address' => $request->address,
@@ -75,7 +78,7 @@ class OrderController extends Controller
                 'payment_proof' => $proofPath,
             ]);
 
-            // Pindahkan isi Cart ke TransactionDetail & Kurangi Stok
+            // Masukkan Rincian Barang
             foreach ($carts as $item) {
                 TransactionDetail::create([
                     'transaction_id' => $transaction->id,
@@ -84,11 +87,11 @@ class OrderController extends Controller
                     'price' => $item->product->price,
                 ]);
 
-                // Kurangi stok
+                // Kurangi Stok Produk
                 $item->product->decrement('stock', $item->quantity);
             }
 
-            // Kosongkan Keranjang
+            // Hapus Keranjang setelah checkout berhasil
             Cart::where('user_id', Auth::id())->delete();
         });
 
