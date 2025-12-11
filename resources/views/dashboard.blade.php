@@ -245,7 +245,7 @@
                 @else
                     <p class="text-red-100 text-lg opacity-90">Selamat datang kembali di Dashboard Reseller Pedasan Kunchung.</p>
                     <div class="mt-6 flex gap-3">
-                        <a href="{{ route('products.index') }}" class="bg-white text-red-600 px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition shadow-lg">
+                        <a href="{{ route('order.index') }}" class="bg-white text-red-600 px-6 py-2 rounded-lg font-bold hover:bg-gray-100 transition shadow-lg">
                             Mulai Belanja
                         </a>
                     </div>
@@ -334,10 +334,10 @@
                 </a>
                 <a href="{{ route('products.index') }}" class="menu-card">
                     <div class="menu-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg></div>
-                    <div class="menu-title">Kelola Produk</div>
+                    <div class="menu-title">Kelola Menu</div>
                 </a>
             @else
-                <a href="{{ route('products.index') }}" class="menu-card">
+                <a href="{{ route('order.index') }}" class="menu-card">
                     <div class="menu-icon"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg></div>
                     <div class="menu-title">Belanja Produk</div>
                 </a>

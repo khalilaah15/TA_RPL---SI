@@ -1,14 +1,39 @@
 <x-app-layout>
+    <style>
+        header.bg-white {
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%) !important;
+            border-bottom: none !important;
+        }
+
+        header h2 {
+            color: white !important;
+        }
+
+        .admin-primary-btn {
+            background: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+            /* Orange */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: 1px solid #f59e0b;
+        }
+    </style>
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <div>
                 <h2 class="font-bold text-2xl text-gray-800 leading-tight">
-                    {{ __('Tambah Produk Baru') }}
+                    {{ __('Tambah Menu Baru') }}
                 </h2>
-                <p class="text-sm text-gray-600 mt-1">Lengkapi form untuk menambahkan produk camilan baru</p>
             </div>
             <a href="{{ route('products.index') }}"
-                class="flex items-center gap-2 text-gray-600 hover:text-gray-900 font-medium">
+                class="flex items-center gap-2 text-white hover:text-white font-medium">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                 </svg>
@@ -34,7 +59,7 @@
         .form-header {
             padding: 28px 32px;
             border-bottom: 1px solid #f3f4f6;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #b91c1c 0%, #ef4444 100%);
             color: white;
         }
 
@@ -42,8 +67,8 @@
             font-size: 20px;
             font-weight: 700;
             display: flex;
-            align-items: center;
             gap: 12px;
+            align-items: center;
         }
 
         .form-body {
@@ -305,7 +330,7 @@
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Informasi Produk Baru
+                    Informasi Menu Baru
                 </h3>
             </div>
 
@@ -339,7 +364,7 @@
                         </label>
                         <textarea name="description"
                             class="form-input form-textarea @error('description') input-error @enderror"
-                            placeholder="Deskripsikan produk Anda secara detail..."
+                            placeholder="Deskripsikan menu Anda secara detail..."
                             required
                             rows="4">{{ old('description') }}</textarea> @error('description')
                         <div class="error-message">
@@ -415,7 +440,7 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <div class="upload-text">Klik untuk upload gambar produk</div>
+                                    <div class="upload-text">Klik untuk upload gambar menu</div>
                                     <div class="upload-subtext">Format: JPG, PNG, WebP (Maks. 5MB)</div>
                                 </div>
                             </label>
@@ -439,7 +464,7 @@
                                     </svg>
                                 </button>
                             </div>
-                            <p class="text-sm text-gray-500 mt-2">Gambar produk akan ditampilkan seperti ini</p>
+                            <p class="text-sm text-gray-500 mt-2">Gambar menu akan ditampilkan seperti ini</p>
                         </div>
                     </div>
                 </div>

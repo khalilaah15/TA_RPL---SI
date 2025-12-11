@@ -381,7 +381,6 @@
                 <div class="stat-content">
                     <h3>Total Pesanan</h3>
                     <div class="value">{{ $transactions->count() }}</div>
-                    <div class="trend up">+{{ rand(5, 20) }}% dari bulan lalu</div>
                 </div>
             </div>
 
@@ -420,7 +419,6 @@
                 <div class="stat-content">
                     <h3>Selesai Bulan Ini</h3>
                     <div class="value">{{ $transactions->where('status', 'completed')->count() }}</div>
-                    <div class="trend up">+{{ rand(10, 30) }}% dari bulan lalu</div>
                 </div>
             </div>
         </div>
