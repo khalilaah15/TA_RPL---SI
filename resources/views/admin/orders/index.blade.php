@@ -1,0 +1,737 @@
+<x-app-layout>
+    <x-slot name="header">
+        <div class="flex justify-between items-center">
+            <div>
+                <h2 class="font-bold text-2xl text-gray-800 leading-tight">
+                    {{ __('Dashboard Pesanan Admin') }}
+                </h2>
+                <p class="text-sm text-gray-600 mt-1">Kelola semua pesanan dari pelanggan Anda</p>
+            </div>
+            <div class="flex items-center gap-4">
+                <div class="relative">
+                    <input type="text" 
+                           placeholder="Cari pesanan, nama pembeli..." 
+                           class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 w-64"
+                           id="searchOrders">
+                    <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <button onclick="refreshOrders()" 
+                        class="p-2 rounded-lg border border-gray-300 hover:bg-gray-50">
+                    <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </x-slot>
+
+    <style>
+        /* Main Container */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .stat-card.active {
+            border-color: #6366f1;
+        }
+        
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .stat-content h3 {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        
+        .stat-content .value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1f2937;
+        }
+        
+        .stat-content .trend {
+            font-size: 12px;
+            margin-top: 4px;
+        }
+        
+        .trend.up { color: #10b981; }
+        .trend.down { color: #ef4444; }
+        
+        /* Filter Bar */
+        .filter-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b5563;
+            white-space: nowrap;
+        }
+        
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 14px;
+            min-width: 140px;
+            background: white;
+        }
+        
+        .date-input {
+            padding: 8px 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        /* Orders Table */
+        .orders-table {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .table-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e5e7eb;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .table-content {
+            overflow-x: auto;
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+        
+        .table th {
+            padding: 16px 20px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            background: #f9fafb;
+            border-bottom: 2px solid #e5e7eb;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .table td {
+            padding: 20px;
+            border-bottom: 1px solid #f3f4f6;
+            vertical-align: top;
+        }
+        
+        .table tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+        
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        /* Order Info */
+        .order-id {
+            font-size: 15px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .order-date {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        /* Customer Info */
+        .customer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .customer-name {
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .customer-contact {
+            font-size: 13px;
+            color: #6b7280;
+        }
+        
+        /* Product List */
+        .product-list {
+            max-width: 250px;
+        }
+        
+        .product-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 4px 0;
+        }
+        
+        .product-image {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .product-name {
+            font-size: 13px;
+            color: #4b5563;
+            line-height: 1.3;
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .status-pending { background: #fef3c7; color: #92400e; }
+        .status-paid { background: #dbeafe; color: #1e40af; }
+        .status-processing { background: #f3e8ff; color: #7c3aed; }
+        .status-shipped { background: #dcfce7; color: #166534; }
+        .status-completed { background: #f0f9ff; color: #0369a1; }
+        .status-cancelled { background: #fee2e2; color: #991b1b; }
+        
+        /* Total Amount */
+        .total-amount {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ea580c;
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .action-btn {
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .detail-btn {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+        
+        .detail-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Status Update Form */
+        .status-form {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .status-select {
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 13px;
+            min-width: 120px;
+            background: white;
+        }
+        
+        .update-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .update-btn:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-icon {
+            width: 80px;
+            height: 80px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: #9ca3af;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 16px;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+    </style>
+
+    <div class="admin-container">
+        <!-- Statistics -->
+        <div class="stats-grid">
+            <div class="stat-card fade-in" onclick="filterByStatus('all')">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #dbeafe 0%, #93c5fd 100%);">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Total Pesanan</h3>
+                    <div class="value">{{ $transactions->count() }}</div>
+                    <div class="trend up">+{{ rand(5, 20) }}% dari bulan lalu</div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in" onclick="filterByStatus('pending')">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);">
+                    <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Menunggu Pembayaran</h3>
+                    <div class="value">{{ $transactions->where('status', 'pending')->count() }}</div>
+                    <div class="trend up">Perlu konfirmasi</div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in" onclick="filterByStatus('processing')">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #f3e8ff 0%, #d8b4fe 100%);">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Diproses</h3>
+                    <div class="value">{{ $transactions->whereIn('status', ['paid', 'processing'])->count() }}</div>
+                    <div class="trend up">Siap dikirim</div>
+                </div>
+            </div>
+            
+            <div class="stat-card fade-in" onclick="filterByStatus('shipped')">
+                <div class="stat-icon" style="background: linear-gradient(135deg, #dcfce7 0%, #86efac 100%);">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <div class="stat-content">
+                    <h3>Selesai Bulan Ini</h3>
+                    <div class="value">{{ $transactions->where('status', 'completed')->count() }}</div>
+                    <div class="trend up">+{{ rand(10, 30) }}% dari bulan lalu</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Filter Bar -->
+        <div class="filter-bar fade-in">
+            <div class="filter-group">
+                <span class="filter-label">Filter Status:</span>
+                <select class="filter-select" id="statusFilter">
+                    <option value="all">Semua Status</option>
+                    <option value="pending">Menunggu Pembayaran</option>
+                    <option value="paid">Pembayaran Diterima</option>
+                    <option value="processing">Diproses</option>
+                    <option value="shipped">Dikirim</option>
+                    <option value="completed">Selesai</option>
+                    <option value="cancelled">Dibatalkan</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Orders Table -->
+        <div class="orders-table fade-in">
+            <div class="table-header">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                        </svg>
+                        <h3 class="text-lg font-bold">Daftar Pesanan Masuk</h3>
+                    </div>
+                    <span class="text-sm opacity-90">{{ $transactions->count() }} pesanan</span>
+                </div>
+            </div>
+            
+            <div class="table-content">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Pembeli</th>
+                            <th>Produk</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($transactions as $trx)
+                        <tr class="fade-in" data-status="{{ $trx->status }}">
+                            <td>
+                                <div class="order-id">#{{ $trx->order_code ?? $trx->id }}</div>
+                                <div class="order-date">{{ $trx->created_at->format('d M Y, H:i') }}</div>
+                            </td>
+                            
+                            <td>
+                                <div class="customer-info">
+                                    <div class="customer-name">{{ $trx->user->name }}</div>
+                                    <div class="customer-contact">{{ $trx->phone }}</div>
+                                    <div class="text-xs text-gray-500">{{ $trx->receiver_name }}</div>
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div class="product-list">
+                                    @foreach($trx->details as $item)
+                                    <div class="product-item">
+                                        <img src="{{ asset('storage/' . $item->product->image) }}" 
+                                             alt="{{ $item->product->name }}"
+                                             class="product-image">
+                                        <div>
+                                            <div class="product-name">{{ Str::limit($item->product->name, 30) }}</div>
+                                            <div class="text-xs text-gray-500">x{{ $item->quantity }}</div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </td>
+                            
+                            <td>
+                                <div class="total-amount">Rp {{ number_format($trx->total_amount, 0, ',', '.') }}</div>
+                            </td>
+                            
+                            <td>
+                                <span class="status-badge status-{{ $trx->status }}">
+                                    @switch($trx->status)
+                                        @case('pending')
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            MENUNGGU
+                                            @break
+                                        @case('paid')
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                            </svg>
+                                            DITERIMA
+                                            @break
+                                        @case('processing')
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                                            </svg>
+                                            DIPROSES
+                                            @break
+                                        @case('shipped')
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            DIKIRIM
+                                            @break
+                                        @case('completed')
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                            SELESAI
+                                            @break
+                                        @case('cancelled')
+                                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                            </svg>
+                                            BATAL
+                                            @break
+                                    @endswitch
+                                </span>
+                            </td>
+                            
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="{{ route('admin.orders.show', $trx->id) }}" 
+                                       class="action-btn detail-btn">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                        </svg>
+                                        Detail
+                                    </a>
+                                    
+                                    <form action="{{ route('admin.orders.update', $trx->id) }}" method="POST" class="status-form">
+                                        @csrf
+                                        @method('PUT')
+                                        <select name="status" class="status-select" onchange="this.form.submit()">
+                                            <option value="pending" {{ $trx->status == 'pending' ? 'selected' : '' }}>Pending</option>
+                                            <option value="paid" {{ $trx->status == 'paid' ? 'selected' : '' }}>Dibayar</option>
+                                            <option value="processing" {{ $trx->status == 'processing' ? 'selected' : '' }}>Diproses</option>
+                                            <option value="shipped" {{ $trx->status == 'shipped' ? 'selected' : '' }}>Dikirim</option>
+                                            <option value="completed" {{ $trx->status == 'completed' ? 'selected' : '' }}>Selesai</option>
+                                            <option value="cancelled" {{ $trx->status == 'cancelled' ? 'selected' : '' }}>Batal</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        @if($transactions->isEmpty())
+        <div class="empty-state fade-in">
+            <div class="empty-icon">
+                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-700 mb-3">Belum ada pesanan</h3>
+            <p class="text-gray-500">Tidak ada pesanan masuk saat ini.</p>
+        </div>
+        @endif
+    </div>
+
+    <script>
+        // Filter functionality
+        function filterByStatus(status) {
+            const rows = document.querySelectorAll('tbody tr[data-status]');
+            const filterSelect = document.getElementById('statusFilter');
+            
+            // Update select
+            filterSelect.value = status;
+            
+            // Update stats cards
+            document.querySelectorAll('.stat-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Show/hide rows
+            rows.forEach(row => {
+                if (status === 'all' || row.dataset.status === status) {
+                    row.style.display = '';
+                    setTimeout(() => {
+                        row.style.opacity = '1';
+                        row.style.transform = 'translateX(0)';
+                    }, 10);
+                } else {
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        row.style.display = 'none';
+                    }, 300);
+                }
+            });
+        }
+        
+        // Search functionality
+        document.getElementById('searchOrders').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('tbody tr[data-status]');
+            
+            rows.forEach(row => {
+                const orderId = row.querySelector('.order-id').textContent.toLowerCase();
+                const customerName = row.querySelector('.customer-name').textContent.toLowerCase();
+                const customerContact = row.querySelector('.customer-contact').textContent.toLowerCase();
+                
+                if (orderId.includes(searchTerm) || 
+                    customerName.includes(searchTerm) || 
+                    customerContact.includes(searchTerm) ||
+                    searchTerm === '') {
+                    row.style.display = '';
+                    setTimeout(() => {
+                        row.style.opacity = '1';
+                        row.style.transform = 'translateX(0)';
+                    }, 10);
+                } else {
+                    row.style.opacity = '0';
+                    row.style.transform = 'translateX(-20px)';
+                    setTimeout(() => {
+                        row.style.display = 'none';
+                    }, 300);
+                }
+            });
+        });
+        
+        // Filter by date
+        document.getElementById('dateFrom').addEventListener('change', filterByDate);
+        document.getElementById('dateTo').addEventListener('change', filterByDate);
+        
+        function filterByDate() {
+            const dateFrom = document.getElementById('dateFrom').value;
+            const dateTo = document.getElementById('dateTo').value;
+            
+            if (dateFrom && dateTo) {
+                // Implement date filtering logic here
+                console.log('Filter by date:', dateFrom, 'to', dateTo);
+            }
+        }
+        
+        // Status filter select
+        document.getElementById('statusFilter').addEventListener('change', function(e) {
+            filterByStatus(e.target.value);
+        });
+        
+        // Export orders to CSV
+        function exportOrders() {
+            // Implement CSV export functionality
+            alert('Fitur export CSV akan segera tersedia!');
+        }
+        
+        // Refresh orders
+        function refreshOrders() {
+            location.reload();
+        }
+        
+        // Auto-submit status forms
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation to status update buttons
+            document.querySelectorAll('.status-form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    const button = this.querySelector('.status-select');
+                    button.disabled = true;
+                    
+                    // Show loading indicator
+                    const originalHTML = button.innerHTML;
+                    button.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>';
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalHTML;
+                        button.disabled = false;
+                    }, 1500);
+                });
+            });
+            
+            // Add spin animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+                
+                .animate-spin {
+                    animation: spin 1s linear infinite;
+                }
+                
+                tbody tr {
+                    transition: opacity 0.3s ease, transform 0.3s ease;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</x-app-layout>
