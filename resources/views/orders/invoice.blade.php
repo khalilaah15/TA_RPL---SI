@@ -113,7 +113,7 @@
         }
 
         .wa-link {
-            color: #25D366;
+            color: #333;
             text-decoration: none;
             font-weight: 600;
             font-size: 12px;
@@ -328,7 +328,7 @@
         <!-- Header -->
         <div class="invoice-header">
             <h1>INVOICE PEDASAN KUNCHUNG</h1>
-            <p style="color: black;">Official Receipt</p>
+            <p style="color: black;">Kontak WhatsApp: +62 813-9313-3583</p>
             <div class="invoice-id">
                 NO: #{{ $transaction->order_code ?? str_pad($transaction->id, 6, '0', STR_PAD_LEFT) }}
             </div>
@@ -345,27 +345,18 @@
                             <div class="info-label">Tanggal</div>
                             <div class="info-value">{{ $transaction->created_at->format('d/m/Y H:i') }}</div>
                         </div>
-                        <div class="info-row">
+                        <!-- <div class="info-row">
                             <div class="info-label">Status</div>
                             <div class="info-value">
                                 <span class="status-badge status-{{ $transaction->status }}">
                                     {{ strtoupper($transaction->status) }}
                                 </span>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="info-row">
                             <div class="info-label">Pembayaran</div>
                             <div class="info-value">QRIS Transfer</div>
                         </div>
-                        <div class="info-row">
-                            <div class="info-label">Resi</div>
-                            <div class="info-value">{{ $transaction->tracking_number ?? '-' }}</div>
-                        </div>
-                    </div>
-
-                    <!-- Customer Info -->
-                    <div class="info-card">
-                        <h3>Informasi Pembeli</h3>
                         <div class="info-row">
                             <div class="info-label">Nama</div>
                             <div class="info-value">{{ $transaction->user->name }}</div>
@@ -424,24 +415,14 @@
             </div>
 
             <!-- Footer -->
-            <div class="invoice-footer">
+            <!-- <div class="invoice-footer">
                 <div class="footer-grid">
                     <div class="footer-col">
-                        <h4>Kontak Support</h4>
+                        <h4>Kontak Pedasan Kunchung</h4>
                         <p>WhatsApp: +62 813-9313-3583</p>
                     </div>
-
-                    <div class="footer-col">
-                        <h4>Informasi</h4>
-                        <p>Invoice ini bukti pembayaran sah</p>
-                    </div>
                 </div>
-
-                <div class="thank-you">
-                    <h3>Terima kasih atas pesanan Anda!</h3>
-                    <p>Invoice dicetak pada {{ date('d/m/Y H:i') }}</p>
-                </div>
-            </div>
+            </div> -->
         </div>
 
         <script>

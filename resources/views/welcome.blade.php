@@ -526,7 +526,7 @@
                 </div>
                 <div class="badge" style="margin-bottom: 30px;">#1 Snack Pedas Terlaris</div>
                 <h1 style="margin-bottom: 30px;">Raih Untung Maksimal dengan Pedasan Kunchung</h1>
-                <p style="font-size: 20px; margin-bottom: 40px;">Gabung sebagai reseller dan dapatkan akses ke produk snack pedas pilihan, marketing kit lengkap, dan dukungan penuh untuk kesuksesan bisnis Anda.</p>
+                <p style="font-size: 20px; margin-bottom: 40px;">Siap mulai bisnis dari mana saja? Pedasan Kunchung membuka peluang reseller untuk kamu yang ingin penghasilan tambahan. Produk best-seller, margin untung besar, dan proses reseller super mudah! Daftar sekarang dan mulai jualan hari ini!</p>
                 <a href="{{ route('register') }}" style="margin-bottom: 70px;" class="btn-primary">Mulai Sekarang</a>
             </div>
             <div class="hero-image">
@@ -541,7 +541,7 @@
             <span>Tentang Kami</span>
         </div>
         <h2 class="section-title">Kenapa Pilih Pedasan Kunchung?</h2>
-        <p class="section-description">Pedasan Kunchung adalah brand snack pedas premium yang telah dipercaya ribuan reseller di seluruh Indonesia. Kami menyediakan produk berkualitas dengan sistem kemitraan yang menguntungkan.</p>
+        <p class="section-description">Pedasan Kunchung adalah brand snack pedas premium yang telah dipercaya banyak reseller di seluruh Indonesia. Kami menyediakan produk berkualitas dengan sistem kemitraan yang menguntungkan.</p>
 
         <div class="features-grid">
             <div class="feature-card">
@@ -618,7 +618,7 @@
     <!-- CTA Section -->
     <section class="cta">
         <h2>Siap Memulai Bisnis Pedasan Kunchung?</h2>
-        <p>Daftar sekarang dan dapatkan akses penuh ke katalog produk, sistem pemesanan, dan marketing kit lengkap untuk mendukung bisnis Anda.</p>
+        <p>Daftar sekarang dan dapatkan keuntungan lebih besar, stok terjamin, dan support penuh dari tim kami untuk mendukung bisnis Anda.”</p>
         <a href="{{ route('register') }}" class="btn-secondary">Daftar Sebagai Reseller</a>
     </section>
 
